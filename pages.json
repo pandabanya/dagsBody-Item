@@ -1,0 +1,51 @@
+{
+	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
+		{
+			"path": "pages/welcome/welcome",
+			"style": {
+				"navigationBarTitleText": "欢迎",
+				"enablePullDownRefresh" : false,
+				"navigationStyle": "custom"
+			}
+		},
+		{
+			"path": "pages/index/index",
+			"style": {
+				"navigationBarTitleText": "首页"
+			}
+		},
+		{
+			"path": "pages/foodsList/foodsList",
+			"style": {
+				"navigationBarTitleText": "菜品"
+			}
+		}
+	],
+	"globalStyle": {
+		"navigationBarTextStyle": "white",
+		"navigationBarTitleText": "uni-app",
+		"navigationBarBackgroundColor": "#e9d8c4",
+		"backgroundColor": "#e9d8c4"
+	},
+	"uniIdRouter": {},
+	"tabBar": {
+		"color": "#b37700",
+		"selectedColor": "#ffffff",
+		"borderStyle": "black",
+		"backgroundColor": "#e9d8c4",
+		"list": [
+			{
+				"pagePath": "pages/index/index",
+				"iconPath": "static/images/cow.png",
+				"selectedIconPath": "static/images/cow.png",
+				"text": "首页"
+			},
+			{
+				"pagePath": "pages/foodsList/foodsList",
+				"iconPath": "static/images/cai.png",
+				"selectedIconPath": "static/images/cai.png",
+				"text": "菜品"
+			}
+		]
+	}
+}
