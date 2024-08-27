@@ -90,7 +90,7 @@
 		.welcome-title {
 			position: fixed;
 			font-size: 30px;
-			top: 60rpx;
+			top: 180rpx;
 			transform: translateX(-50%);
 			width: 100%;
 			text-align: center;

@@ -7,6 +7,10 @@
 			<image class="yin-icon" src="../../static/images/downyin.svg" mode="aspectFit"></image>
 		</view>
 		<view class="man-money">
+			<view class="day-info">
+				<view class="day-info-item address"><wu-icon name="empty-address"></wu-icon>所在城市：{{city}}</view>
+				<view class="day-info-item weather">今日天气：{{weather}}</view>
+			</view>
 			<u--form :model="moneyForm" ref="uForm">
 				<u-form-item label="选择发薪日" labelWidth="90" :prop="moneyForm.payday" borderBottom @click="showPay = true;"
 					ref="item1">
@@ -15,26 +19,53 @@
 					<u-icon slot="right" name="arrow-right"></u-icon>
 				</u-form-item>
 			</u--form>
-			<u--text text="距离本次发薪还有:"></u--text>
-			<u--text text="距离下次发薪还有:"></u--text>
+			<view v-if="daysUntilNextMonthPayday > 0">
+				距离本次发薪还有:
+				<text class="come">
+					<u-count-to :startVal="0" :endVal="daysUntilNextMonthPayday"></u-count-to>
+				</text> 天
+			</view>
+			<view v-if="daysUntilNowMonthPayday > 0">
+				距离下次发薪还有:
+				<text class="come">
+					<u-count-to :startVal="0" :endVal="daysUntilNowMonthPayday"></u-count-to>
+				</text> 天
+			</view>
+			<view class="" v-if="daysUntilNowMonthPayday > 0">
+				<u-line-progress :percentage="percentageOfCurrentMonthPassed" height="8" :showText="false"></u-line-progress>
+			</view>
+			<view class="index">
+				<DataPicker></DataPicker>
+			</view>
+			<view class="drink">
+				<DrinkWater />
+			</view>
 		</view>
 		<u-action-sheet :show="showPay" :actions="actions" title="请选择发薪日" @close="showPay = false" @select="paySelect">
 		</u-action-sheet>
-		<u-modal :show="showModal" title="提示" content="该日期不配查询发薪日" :closeOnClickOverlay="true" @confirm="handleClose" @close="handleClose"></u-modal>
+		<u-modal :show="showModal" title="提示" content="该日期不配查询发薪日" :closeOnClickOverlay="true" @confirm="handleClose"
+			@close="handleClose"></u-modal>
 	</view>
 </template>
 
 <script>
+	import DataPicker from '@/components/DataPicker/index.vue'
+	import DrinkWater from '@/components/DrinkWater/index.vue'
 	import {
 		getPercentageOfCurrentMonthPassed,
 		getDaysUntilNextMonthPayday
 	} from '../../utils'
 	export default {
+		components: {
+			DataPicker,
+			DrinkWater
+		},
 		data() {
 			return {
 				loading: true,
 				title: 'Hello',
-				manSay: '',
+				manSay: 'manSay',
+				showDatePicker: true,
 				show: false,
 				showPay: false,
 				showModal: false,
@@ -60,23 +91,30 @@
 						name: '27号',
 					},
 				],
-
+				city: "",
+				weather: ""
 			}
 		},
 		onLoad() {
 			console.log(uni.$u.config.v)
+		},
+		onShow() {
+			console.log(1111);
 			this.getWeather()
 			this.getDailyJT()
 			setTimeout(() => {
 				this.loading = false
 			}, 1000)
 		},
-		onShow() {
-
-		},
 		methods: {
 			getPercentageOfCurrentMonthPassed,
 			getDaysUntilNextMonthPayday,
+			calendarChange(e) {
+				console.log(e);
+			},
+			formatter(day) {
+				console.log(day);
+			},
 			getWeather() {
 				uni.request({
 					url: "https://restapi.amap.com/v3/weather/weatherInfo",
@@ -89,6 +127,8 @@
 					}
 				}).then(res => {
 					console.log(res);
+					this.city = res.data.lives[0].province + '- ' + res.data.lives[0].city
+					this.weather = res.data.lives[0].weather + '温度： ' + res.data.lives[0].temperature
 				})
 			},
 			getDailyJT() {
@@ -104,7 +144,6 @@
 						...requestParams
 					}
 				}).then(res => {
-					console.log(res);
 					if (res.data.code === 200) {
 						this.manSay = res.data.data.content
 					} else {
@@ -114,18 +153,20 @@
 			},
 			paySelect(e) {
 				console.log(e.name);
-				if(e.name === '27号'){
+				if (e.name === '27号') {
 					this.showModal = true
 				}
 				this.moneyForm.payday = e.name.replace('号', '')
 				this.cal(parseInt(e.name.replace('号', '')))
 			},
-			handleClose(){
+			handleClose() {
 				this.showModal = false
 				this.moneyForm.payday = ''
+				this.daysUntilNextMonthPayday = 0
+				this.daysUntilNowMonthPayday = 0
 			},
 			cal(payDay) {
-				if(payDay === 27){
+				if (payDay === 27) {
 					return
 				}
 				//  获取下个月的发薪日
@@ -144,11 +185,12 @@
 		}
 	}
 </script>
-
 <style lang="scss">
 	$com-width: 90%;
 
 	.main-content {
+		position: relative;
+
 		.man-say {
 			width: $com-width;
 			margin: 30rpx auto;
@@ -160,6 +202,7 @@
 			.say-content {
 				line-height: 60rpx;
 				text-indent: 2em;
+				font-size: 40rpx
 			}
 
 			.yin-icon {
@@ -172,6 +215,23 @@
 		.man-money {
 			width: $com-width;
 			margin: 0 auto;
+
+			.day-info {
+				margin-top: 50rpx;
+
+				.day-info-item {
+					margin-bottom: 30rpx;
+				}
+
+				.address {
+					display: flex;
+				}
+			}
+
+			.come {
+				font-size: 60rpx
+			}
 		}
+
 	}
 </style>
