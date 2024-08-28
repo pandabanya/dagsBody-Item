@@ -1,5 +1,6 @@
 import App from './App'
 
+import mock from './mock/index.js'
 // #ifndef VUE3
 import Vue from 'vue'
 import './uni.promisify.adaptor'

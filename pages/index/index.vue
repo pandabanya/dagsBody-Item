@@ -37,9 +37,6 @@
 			<view class="index">
 				<DataPicker></DataPicker>
 			</view>
-			<view class="drink">
-				<DrinkWater />
-			</view>
 		</view>
 		<u-action-sheet :show="showPay" :actions="actions" title="请选择发薪日" @close="showPay = false" @select="paySelect">
 		</u-action-sheet>
@@ -50,15 +47,13 @@
 
 <script>
 	import DataPicker from '@/components/DataPicker/index.vue'
-	import DrinkWater from '@/components/DrinkWater/index.vue'
 	import {
 		getPercentageOfCurrentMonthPassed,
 		getDaysUntilNextMonthPayday
 	} from '../../utils'
 	export default {
 		components: {
-			DataPicker,
-			DrinkWater
+			DataPicker
 		},
 		data() {
 			return {
@@ -99,7 +94,6 @@
 			console.log(uni.$u.config.v)
 		},
 		onShow() {
-			console.log(1111);
 			this.getWeather()
 			this.getDailyJT()
 			setTimeout(() => {

@@ -1,4 +1,10 @@
 {
+	"easycom": {
+		"autoscan": true,
+		"custom": {
+	    "^z-(.*)": "@zebra-ui/swiper/components/z-$1/z-$1.vue"
+	  }
+	},
 	"pages": [ //pages数组中第一项表示应用启动页，参考：https://uniapp.dcloud.io/collocation/pages
 		{
 			"path": "pages/welcome/welcome",
@@ -17,7 +23,22 @@
 		{
 			"path": "pages/foodsList/foodsList",
 			"style": {
-				"navigationBarTitleText": "菜品"
+				"navigationBarTitleText": "菜品",
+				"enablePullDownRefresh" : false
+			}
+		},
+		{
+			"path" : "pages/drink/drink",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
+			}
+		},
+		{
+			"path" : "pages/foodsList/foodDetail",
+			"style" : 
+			{
+				"navigationBarTitleText" : ""
 			}
 		}
 	],
@@ -41,6 +62,12 @@
 				"text": "首页"
 			},
 			{
+				"pagePath": "pages/drink/drink",
+				"iconPath": "static/images/drink.png",
+				"selectedIconPath": "static/images/drink.png",
+				"text": "喝水"
+			},
+			{
 				"pagePath": "pages/foodsList/foodsList",
 				"iconPath": "static/images/cai.png",
 				"selectedIconPath": "static/images/cai.png",
@@ -48,4 +75,5 @@
 			}
 		]
 	}
+	
 }
