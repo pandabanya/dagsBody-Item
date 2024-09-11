@@ -5,6 +5,8 @@ import mock from './mock/index.js'
 import Vue from 'vue'
 import './uni.promisify.adaptor'
 import uView from '@/uni_modules/uview-ui'
+import lottie from 'vue-lottie'
+Vue.component('lottie',lottie)
 Vue.config.productionTip = false
 Vue.use(uView)
 App.mpType = 'app'

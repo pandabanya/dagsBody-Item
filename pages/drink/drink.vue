@@ -5,14 +5,15 @@
 		<u-gap height="50" bgColor="#fff"></u-gap>
 		<div class="set-wrapper">
 			<u-gap height="10" bgColor="#fff"></u-gap>
-			<u-button @click="show2 = true" color="linear-gradient(to right, #144fc6, #00aaff)" text=" 添加饮水量"
+			<u-button @click="show2 = true" color="linear-gradient(to right, #579bdf, #00aaff)" text=" 添加饮水量"
 				icon="plus"></u-button>
 			<u-gap height="10" bgColor="#fff"></u-gap>
-			<u-button @click="show = true" color="linear-gradient(to right, #144fc6, #00aaff)" text=" 设置每日总饮水量"
+			<u-button @click="show = true" color="linear-gradient(to right, #579bdf, #00aaff)" text=" 设置每日总饮水量"
 				icon="account-fill"></u-button>
 			<text style="font-size: 24px;text-align: center;display: block;padding: 30px 0;">每日喝水记录</text>
 			<uni-list>
-				 <uni-list-chat v-for="(item,index) in waterDrinkList" :avatar="imgUrl" :key="index" title="当前喝水量" :note="`${item.waterOne}ml`" :time="item.nowDrinkTime"></uni-list-chat>
+				<uni-list-chat v-for="(item,index) in waterDrinkList" :avatar="imgUrl" :key="index" title="当前喝水量"
+					:note="`${item.waterOne}ml`" :time="item.nowDrinkTime"></uni-list-chat>
 			</uni-list>
 		</div>
 		<u-popup :show="show2" @close="close2" @open="open2">
@@ -22,7 +23,7 @@
 					<image src="../../static/images/sh.svg" mode=""></image>
 				</view>
 				<view class="number">
-					<u--form labelPosition="left" :model="form2" ref="uForm2">
+					<u--form labelPosition="left" :model="form2" ref="uForm2" :rules='form2Rules'>
 						<u-form-item label="饮水量:" prop="waterOne" label-width="90">
 							<u-input v-model="form2.waterOne" type="number" placeholder="请输入饮水量"></u-input>
 						</u-form-item>
@@ -72,7 +73,15 @@
 				drinkCupHeight: 0,
 				form2: {
 					waterOne: 250,
-					nowDrinkTime:''
+					nowDrinkTime: ''
+				},
+				form2Rules: {
+					nowDrinkTime: {
+						type: 'string',
+						required: true,
+						message: '请选择时间',
+						trigger: ['change']
+					}
 				},
 				form1: {
 					waterSum: 2500
@@ -96,12 +105,12 @@
 		},
 		mounted() {
 			this.getHeight()
-			if(uni.getStorageSync('waterDrinkList')){
+			if (uni.getStorageSync('waterDrinkList')) {
 				this.waterDrinkList = JSON.parse(uni.getStorageSync('waterDrinkList'))
-				this.waterAdd = this.waterDrinkList.reduce((pre,cur)=>{
+				this.waterAdd = this.waterDrinkList.reduce((pre, cur) => {
 					return pre + cur.waterOne
-				},0)
-				
+				}, 0)
+
 			}
 		},
 		methods: {
@@ -128,14 +137,21 @@
 						message: "喝水太多也不行哟",
 						iconUrl: 'https://cdn.uviewui.com/uview/demo/toast/error.png',
 						duration: 1000
-					},)
+					}, )
 					return
 				}
-				this.waterAdd += Number(this.form2.waterOne)
-				this.waterDrinkList.push(this.form2)
-				uni.setStorageSync('waterDrinkList',JSON.stringify(this.waterDrinkList))
-				this.close2()
-				this.form2.nowDrinkTime = "";
+				this.$refs.uForm2.validate().then(res => {
+					console.log(res);
+					if (res) {
+						this.waterAdd += Number(this.form2.waterOne)
+						this.waterDrinkList.push(this.form2)
+						uni.setStorageSync('waterDrinkList', JSON.stringify(this.waterDrinkList))
+						this.close2()
+						this.form2.nowDrinkTime = "";
+					}
+
+				})
+
 			},
 			addWaterSum() {
 				this.close()

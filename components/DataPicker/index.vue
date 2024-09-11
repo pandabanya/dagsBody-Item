@@ -1,5 +1,5 @@
 <template>
-	<wu-calendar color="#e9d8c4" :insert="true" :lunar="true" @change="calendarChange"></wu-calendar>
+	<wu-calendar color="#579bdf" :insert="true" :lunar="true" @change="calendarChange"></wu-calendar>
 </template>
 
 <script>

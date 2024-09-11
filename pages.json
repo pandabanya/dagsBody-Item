@@ -31,7 +31,8 @@
 			"path" : "pages/drink/drink",
 			"style" : 
 			{
-				"navigationBarTitleText" : ""
+				"navigationBarTitleText" : "喝水"
+				
 			}
 		},
 		{
@@ -45,15 +46,16 @@
 	"globalStyle": {
 		"navigationBarTextStyle": "white",
 		"navigationBarTitleText": "uni-app",
-		"navigationBarBackgroundColor": "#e9d8c4",
-		"backgroundColor": "#e9d8c4"
+		"navigationBarBackgroundColor": "#579bdf",
+		"backgroundColor": "#579bdf"
 	},
 	"uniIdRouter": {},
 	"tabBar": {
-		"color": "#b37700",
+		"color": "#fff",
 		"selectedColor": "#ffffff",
 		"borderStyle": "black",
-		"backgroundColor": "#e9d8c4",
+		"backgroundColor": "#579bdf",
+		"fontSize": "20px",
 		"list": [
 			{
 				"pagePath": "pages/index/index",

@@ -5,11 +5,11 @@
 		},
 		onShow: function() {
 			console.log('App Show')
-			uni.request({
-			    url:'/mock/test',// mock地址
-			}).then(res=>{
-				console.log(res);
-			})
+			// uni.request({
+			//     url:'/mock/test',// mock地址
+			// }).then(res=>{
+			// 	console.log(res);
+			// })
 		},
 		onHide: function() {
 			console.log('App Hide')

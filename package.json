@@ -10,6 +10,7 @@
   "license": "ISC",
   "dependencies": {
     "@zebra-ui/swiper": "^2.2.8",
-    "better-mock": "^0.3.7"
+    "better-mock": "^0.3.7",
+    "vue-lottie": "^0.2.1"
   }
 }

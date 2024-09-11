@@ -120,8 +120,8 @@
 					background-color: #6C6C6C;
 				}
 				.isit{
-					border: 1px solid #BD3124;
-					background-color: #BD3124;
+					border: 1px solid #ff6036;
+					background-color: #ff6036;
 				}
 			}
 

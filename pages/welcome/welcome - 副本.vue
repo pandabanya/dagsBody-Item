@@ -1,14 +1,8 @@
 <template>
 	<view class="welcome-page" v-if="imgSrc">
+		<!-- 	<image :src="imgSrc" mode="aspectFill"></image> -->
 		<view class="welcome-title shake-animation">欢迎来到牛马Item</view>
-		<!-- #ifdef H5 -->
 		<lottie :options="defaultOptions" v-on:animCreated="handleAnimation"></lottie>
-		<!-- #endif -->
-		<!-- #ifdef MP-WEIXIN -->
-			<image :src="imgSrc" mode="aspectFill"></image> 
-		<!-- #endif -->
-		
-		
 		<view class="bottom-box">
 			<view>{{time}}</view>
 			<view @click="gotoIndex">跳过</view>
@@ -37,6 +31,9 @@
 				clearInterval(this.timer)
 				this.timer = null
 			}
+		},
+		onShow() {
+			console.log(document);
 		},
 		methods: {
 			handleAnimation(anim) {
